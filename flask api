@@ -1,0 +1,35 @@
+from flask import Flask, request, jsonify
+from data_store import data
+app = Flask(__name__)
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Welcome to Flask REST API"})
+@app.route("/items", methods=["GET"])
+def get_items():
+    return jsonify(data)
+@app.route("/items/<int:item_id>", methods=["GET"])
+def get_item(item_id):
+    item = data.get(item_id)
+    if item:
+        return jsonify(item)
+    return jsonify({"error": "Item not found"}), 404
+@app.route("/items", methods=["POST"])
+def create_item():
+    new_id = max(data.keys()) + 1
+    new_item = request.json
+    data[new_id] = new_item
+    return jsonify({"id": new_id, "item": new_item}), 201
+@app.route("/items/<int:item_id>", methods=["PUT"])
+def update_item(item_id):
+    if item_id not in data:
+        return jsonify({"error": "Item not found"}), 404
+    data[item_id] = request.json
+    return jsonify({"message": "Item updated", "item": data[item_id]})
+@app.route("/items/<int:item_id>", methods=["DELETE"])
+def delete_item(item_id):
+    if item_id in data:
+        del data[item_id]
+        return jsonify({"message": "Item deleted"})
+    return jsonify({"error": "Item not found"}), 404
+if __name__ == "__main__":
+    app.run(debug=True)
