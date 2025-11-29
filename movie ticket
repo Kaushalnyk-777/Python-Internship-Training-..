@@ -1,0 +1,18 @@
+seats = ["Available"] * 10
+price = 150                 
+print("Movie Ticket Booking System")
+while True:
+    print("\nSeats:")
+    for i in range(10):
+        print(f"{i+1}: {seats[i]}")
+    seat = int(input("\nChoose a seat number (1-10): "))
+    if seats[seat - 1] == "Booked":
+        print("Seat already booked! Try another.")
+        continue
+    seats[seat - 1] = "Booked"
+    print(f"Seat {seat} booked successfully")
+    print(f"Ticket Price: ₹{price}")
+    again = input("Book another ticket? (yes/no): ").lower()
+    if again != "yes":
+        print("\nEnjoy movie")
+        break
