@@ -1,0 +1,62 @@
+import streamlit as st
+import pandas as pd
+import os
+DATA_FILE = "cricket_score.csv"
+if not os.path.exists(DATA_FILE):
+    df = pd.DataFrame({"Runs": [0], "Wickets": [0], "Overs": [0], "Balls": [0]})
+    df.to_csv(DATA_FILE, index=False)
+def load_data():
+    return pd.read_csv(DATA_FILE)
+def save_data(df):
+    df.to_csv(DATA_FILE, index=False)
+st.title("🏏 Cricket Live Scoreboard")
+st.write("A simple real-time cricket scorecard built using Streamlit.")
+
+df = load_data()
+runs = int(df["Runs"][0])
+wickets = int(df["Wickets"][0])
+overs = int(df["Overs"][0])
+balls = int(df["Balls"][0])
+
+st.subheader("📟 Live Score")
+
+st.metric("Runs", runs)
+st.metric("Wickets", wickets)
+st.metric("Overs", f"{overs}.{balls}")
+st.subheader("➕ Add Runs")
+run_value = st.selectbox("Select runs", [0, 1, 2, 3, 4, 6])
+
+if st.button("Add Runs"):
+    runs += run_value
+
+    # Increase ball
+    balls += 1
+    if balls == 6:
+        balls = 0
+        overs += 1
+
+    df.loc[0, ["Runs", "Wickets", "Overs", "Balls"]] = [runs, wickets, overs, balls]
+    save_data(df)
+    st.success(f"Added {run_value} runs!")
+st.subheader("❌ Add Wicket")
+
+if st.button("Wicket Fallen"):
+    if wickets < 10:
+        wickets += 1
+        balls += 1
+        if balls == 6:
+            balls = 0
+            overs += 1
+
+        df.loc[0, ["Runs", "Wickets", "Overs", "Balls"]] = [runs, wickets, overs, balls]
+        save_data(df)
+        st.warning("Wicket added!")
+    else:
+        st.error("All 10 wickets are already down!")
+st.subheader("🔄 Reset Match")
+if st.button("Reset All"):
+    df = pd.DataFrame({"Runs": [0], "Wickets": [0], "Overs": [0], "Balls": [0]})
+    save_data(df)
+    st.success("Match reset successfully!")
+st.subheader("📄 Score Summary")
+st.write(df)
