@@ -1,0 +1,19 @@
+print("Simple Calculator")
+print("Operations: +  -  *  /")
+a = float(input("Enter first number: "))
+b = float(input("Enter second number: "))
+c = input("Enter operation: ")
+if c == '+':
+        print("Sum:", a+b)
+elif c == '-':
+        print("Sub:", a - b)
+elif c == '*':
+     print("Mul:", a * b)  
+elif c == '/':
+        if b != 0:
+         print("Divide:", a/b)
+        else:
+         print("Error: Cannot divide by zero.")
+else:
+ print("Invalid operation.")
+  
