@@ -1,0 +1,28 @@
+import pywhatkit as kit
+print("WhatsApp Messaging Automation")
+while True:
+    print("""
+1. Send Scheduled Message
+2. Send Instant Message
+3. Exit
+""")
+    a = input("Choose an option: ")
+    if a == "1":
+        phone = input("Enter phone number with country code (+91...): ")
+        msg = input("Enter your message: ")
+        hour = int(input("Enter hour (24-hour format): "))
+        minute = int(input("Enter minute: "))
+        print("Scheduling message...")
+        kit.sendwhatmsg(phone, msg, hour, minute)
+        print("Message scheduled successfully!")
+    elif a == "2":
+        phone = input("Enter phone number with country code (+91...): ")
+        msg = input("Enter your message: ")
+        print("Sending instantly...")
+        kit.sendwhatmsg_instantly(phone, msg)
+        print("Message sent!")
+    elif a == "3":
+        print("Exiting... Goodbye!")
+        break
+    else:
+        print("Invalid choice! Try again.")
