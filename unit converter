@@ -1,0 +1,57 @@
+print("   Unit Converter     ")
+while True:
+    print("\n1. Temperature (C F)")
+    print("2. Length (Km M)")
+    print("3. Weight (Kg  G)")
+    print("4. Currency (INR USD)")
+    a = int(input("Choose an option: "))
+    if a  == 1:
+        print("a) Celsius → Fahrenheit")
+        print("b) Fahrenheit → Celsius")
+        b = input("Choose (a/b): ")
+        if b == "a":
+            c = float(input("Enter Celsius: "))
+            f = (c * 9/5) + 32
+            print(f"{c}°C = {f}°F")
+        else:
+            f = float(input("Enter Fahrenheit: "))
+            c = (f - 32) * 5/9
+            print(f"{f}°F = {c}°C")
+    elif a == 2:
+        print("a) Km → Meter")
+        print("b) Meter → Km")
+        d = input("Choose (a/b): ")
+
+        if d == "a":
+            km = float(input("Enter Km: "))
+            print(f"{km} km = {km * 1000} meters")
+        else:
+            m = float(input("Enter meters: "))
+            print(f"{m} m = {m / 1000} km")
+    elif a == 3:
+        print("a) Kg → Grams")
+        print("b) Grams → Kg")
+        e= input("Choose (a/b): ")
+        if e == "a":
+            kg = float(input("Enter Kg: "))
+            print(f"{kg} kg = {kg * 1000} grams")
+        else:
+            g = float(input("Enter grams: "))
+            print(f"{g} g = {g / 1000} kg")
+    elif a == 4:
+        print("a) INR → USD")
+        print("b) USD → INR")
+        opt = input("Choose (a/b): ")
+        rate = 89
+        if opt == "a":
+            inr = float(input("Enter INR: "))
+            print(f"₹{inr} = ${inr / rate:.2f}")
+        else:
+            usd = float(input("Enter USD: "))
+            print(f"${usd} = ₹{usd * rate:.2f}")
+    else:
+        print("Invalid choice!")
+    again = input("\nConvert again? (yes/no): ").lower()
+    if again != "yes":
+        print("Goodbye!")
+        break
