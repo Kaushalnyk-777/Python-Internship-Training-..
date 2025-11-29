@@ -1,0 +1,51 @@
+import socket
+import os
+def receiver():
+    HOST = '192.168.1.5'
+    PORT = 5001
+    server = socket.socket()
+    server.bind((HOST, PORT))
+    server.listen(1)
+    print("\nReceiver started. Waiting for file...")
+    conn, addr = server.accept()
+    print(f"Connected with {addr}")
+    file_name = conn.recv(1024).decode()
+    file_size = conn.recv(1024).decode()
+    print(f"Receiving file: {file_name} | Size: {file_size} bytes")
+    with open(file_name, "wb") as f:
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            f.write(data)
+    print("File received successfully!")
+    conn.close()
+    server.close()
+def sender():
+    SERVER_IP = input("\nEnter receiver IP: ")
+    PORT = 5001
+    client = socket.socket()
+    client.connect((SERVER_IP, PORT))
+    file_path = input("Enter file path to send: ")
+    file_size = os.path.getsize(file_path)
+    file_name = os.path.basename(file_path)
+    client.send(file_name.encode())
+    client.send(str(file_size).encode())
+    print(f"Sending file: {file_name}")
+    with open(file_path, "rb") as f:
+        data = f.read(1024)
+        while data:
+            client.send(data)
+            data = f.read(1024)
+    print("File sent successfully!")
+    client.close()
+print("\n=== File Transfer System ===")
+print("1. Receiver")
+print("2. Sender")
+choice = input("Choose (1/2): ")
+if choice == "1":
+    receiver()
+elif choice == "2":
+    sender()
+else:
+    print("Invalid choice!")
