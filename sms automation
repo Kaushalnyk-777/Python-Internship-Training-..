@@ -1,0 +1,10 @@
+from twilio.rest import Client
+account_sid = "ACe0bccb99710e55151c7aad3cf40de0dc"
+auth_token = "+1 762 249 5516"
+client = Client(account_sid, auth_token)
+message = client.messages.create(
+    body="Hello! This is an automated SMS sent using Python.",
+    from_="++1 762 249 5516",
+    to="+1987654321"
+)
+print("Message sent! SID:", message.sid)
