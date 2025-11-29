@@ -1,0 +1,33 @@
+pin = "5438"
+balance = 34000
+attempts = 0
+while attempts < 3:
+    pin = input("Enter your PIN: ")
+    if pin == pin:
+        print("\nLogin successful\n")
+        while True:
+            print("    ATM Menu    ")
+            print("1. Check Balance")
+            print("2. Withdraw Money")
+            print("3. Exit")
+            a = input("Enter your choice: ")
+            if a == "1":
+                print(f"Your balance is: ₹{balance}\n")
+            elif a == "2":
+                amount = int(input("Enter amount to withdraw: ₹"))
+                if amount <= balance:
+                    balance -= amount
+                    print(f"Withdrawal successful! Remaining balance: ₹{balance}\n")
+                else:
+                    print("Insufficient balance!\n")
+            elif a == "3":
+                print("Thank you for using the ATM!")
+                break
+            else:
+                print("Invalid choice, try again.\n")
+        break
+    else:
+        attempts += 1
+        print("Wrong PIN! Try again.\n")
+if attempts == 3:
+    print("Too many wrong attempts. Card blocked!")
