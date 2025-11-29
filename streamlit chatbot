@@ -1,0 +1,21 @@
+import streamlit as st
+import google.generativeai as genai
+st.set_page_config(page_title="Gemini Chat", layout="centered")
+key = "AIzaSyD0jILODYfO7USD0N4JssAMMq8Hz6X6zN4"   
+genai.configure(api_key=key)
+st.title(" Gemini Chat (Simple Version)")
+if "chat" not in st.session_state:
+    st.session_state.chat = []
+for role, text in st.session_state.chat:
+    if role == "user":
+        st.markdown(f"*You:* {text}")
+    else:
+        st.markdown(f"*Gemini:* {text}")
+st.markdown("---")
+user_input = st.text_input("Type your message")
+if st.button("Send") and user_input.strip():
+    st.session_state.chat.append(("user", user_input))
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(user_input)
+    st.session_state.chat.append(("assistant", response.text))
+    st.rerun()
